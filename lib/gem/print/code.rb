@@ -5,8 +5,8 @@ module Gem
   module Print
     class Code
 
-      def initialize(file_path)
-        @file_path = file_path
+      def initialize(gem_name)
+        @gem_name = gem_name
         # import css classes from alpha style
         @css = CodeRay::Styles::Alpha::CSS_MAIN_STYLES << "\n" << CodeRay::Styles::Alpha::TOKEN_COLORS
       end
@@ -18,8 +18,29 @@ module Gem
         "</body></html>"
       end
 
-      def code
-        File.binread(@file_path)
+      def higlight_file(file_path)
+        code_for(file_path)
+      end
+
+      def highlight_files(file_paths)
+        file_paths.map do |file_path|
+          highlight_file(file_path)
+        end
+      end
+
+      def paths_for(gem_name)
+        cmd = Gem::Commands::ContentsCommand.new
+        def cmd.say(*args)
+          @file_paths ||= []
+          @file_paths << args if args
+          @file_paths
+        end
+        cmd.invoke(gem_name)
+        file_paths = cmd.say
+      end
+
+      def code_for(file_path)
+        File.binread(file_path)
       end
 
     end
