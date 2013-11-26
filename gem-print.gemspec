@@ -6,10 +6,10 @@ require 'gem/print/version'
 Gem::Specification.new do |spec|
   spec.name          = "gem-print"
   spec.version       = Gem::Print::VERSION
-  spec.authors       = ["Benjamin Fleischer"]
-  spec.email         = ["github@benjaminfleischer.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.authors       = ["Benjamin Fleischer", "Vikram Dighe"]
+  spec.email         = ["github@benjaminfleischer.com", "krazylegz32@gmail.com"]
+  spec.description   = %q{gem print [your gem here]}
+  spec.summary       = %q{concats and highlights the specified gem files}
   spec.homepage      = ""
   spec.license       = "MIT"
 
