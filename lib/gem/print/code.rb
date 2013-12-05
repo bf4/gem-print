@@ -1,12 +1,13 @@
 # encoding: utf-8
+require 'gem/print/file'
 
 require 'coderay'
 module Gem
   module Print
     class Code
 
-      def initialize(file_path)
-        @file_path = file_path
+      def initialize(gem_name)
+        @gem_name = gem_name
         # import css classes from alpha style
         @css = CodeRay::Styles::Alpha::CSS_MAIN_STYLES << "\n" << CodeRay::Styles::Alpha::TOKEN_COLORS
       end
@@ -18,8 +19,12 @@ module Gem
         "</body></html>"
       end
 
+      private
+
+      # get files from spec, read in, and concat with line break
+      # @todo include path info in file contents
       def code
-        File.binread(@file_path)
+        Gem::Print::File.from_spec(@gem_name).map(&:contents).join("\n")
       end
 
     end
