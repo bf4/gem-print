@@ -20,4 +20,5 @@ class Gem::Commands::PrintCommand < Gem::Command
     gem_name = get_one_gem_name
     Gem::Print::Code.new(gem_name).highlight
   end
+
 end

@@ -5,12 +5,10 @@ require 'gem/print'
 describe Gem::Print do
 
   specify 'prints a file' do
-     run 'gem print gem-love'
-     expect('gem_love.html').to eq(
-       "<html>" <<
-       "</html>"
-     )
+    printer = double('printer', :highlight => '')
+    Gem::Print::Code.should_receive(:new).with('gem-love').and_return(printer)
 
+    run 'gem print gem-love'
   end
 
   def run(shell_command)
@@ -18,4 +16,5 @@ describe Gem::Print do
     command = Gem::Commands::PrintCommand.new
     command.invoke(*args)
   end
+
 end
