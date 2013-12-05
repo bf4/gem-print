@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'gem/print/file'
 
 require 'coderay'
 module Gem
@@ -18,29 +19,12 @@ module Gem
         "</body></html>"
       end
 
-      def higlight_file(file_path)
-        code_for(file_path)
-      end
+      private
 
-      def highlight_files(file_paths)
-        file_paths.map do |file_path|
-          highlight_file(file_path)
-        end
-      end
-
-      def paths_for(gem_name)
-        cmd = Gem::Commands::ContentsCommand.new
-        def cmd.say(*args)
-          @file_paths ||= []
-          @file_paths << args if args
-          @file_paths
-        end
-        cmd.invoke(gem_name)
-        file_paths = cmd.say
-      end
-
-      def code_for(file_path)
-        File.binread(file_path)
+      # get files from spec, read in, and concat with line break
+      # @todo include path info in file contents
+      def code
+        Gem::Print::File.from_spec(@gem_name).map(&:contents).join("\n")
       end
 
     end
